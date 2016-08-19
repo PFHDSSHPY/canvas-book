@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>探照灯</title>
+</head>
+<body>
+<canvas id="canvas" style="display: block;margin: 10px auto;"></canvas>
+
+<script>
+    var searchlight={
+        x:350,y:350,radius:150,vx:Math.random()*5+10,vy:Math.random()*5+10
+    }
+
+    window.onload=function(){
+        var canvas=document.getElementById('canvas');
+        canvas.height=700;
+        canvas.width=700;
+        var context=canvas.getContext('2d');
+
+        setInterval(function(){
+            draw(context);
+            update(canvas.width,canvas.height);
+        },50);
+    };
+    function draw(cxt){
+        var canvas=cxt.canvas;
+        cxt.clearRect(0,0,canvas.width,canvas.height);
+
+        cxt.save();
+
+        cxt.beginPath();
+        cxt.fillStyle="black";
+        cxt.fillRect(0,0,canvas.width,canvas.height);
+
+        cxt.beginPath();
+        cxt.arc(searchlight.x,searchlight.y,searchlight.radius,0,Math.PI*2);
+        cxt.fillStyle="white";
+        cxt.fill();
+        cxt.clip();
+        cxt.font="bold 60px Arial";
+        cxt.textAlign="center";
+        cxt.textBaseline="middle";
+        cxt.fillStyle="#058";
+        cxt.fillText("DRAGONTAILS",canvas.width/2,canvas.height/4);
+        cxt.fillText("DRAGONTAILS",canvas.width/2,canvas.height/2);
+        cxt.fillText("DRAGONTAILS",canvas.width/2,canvas.height*3/4);
+
+        cxt.restore();
+
+    }
+
+    function update(canvasWidth,canvasHeight){
+        searchlight.x+=searchlight.vx;
+        searchlight.y+=searchlight.vy;
+
+        if(searchlight.x-searchlight.radius<=0){
+            searchlight.vx=-searchlight.vx;
+            searchlight.x=searchlight.radius;
+        }
+        if(searchlight.x+searchlight.radius>=canvasWidth){
+            searchlight.vx=-searchlight.vx;
+            searchlight.x=canvasWidth-searchlight.radius;
+        }
+        if(searchlight.y-searchlight.radius<=0){
+            searchlight.vy=-searchlight.vy;
+            searchlight.y=searchlight.radius;
+        }
+        if(searchlight.y+searchlight.radius>=canvasHeight){
+            searchlight.vy=-searchlight.vy;
+            searchlight.y=canvasHeight-searchlight.radius;
+        }
+    }
+
+</script>
+</body>
+</html>
